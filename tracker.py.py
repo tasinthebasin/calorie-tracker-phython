@@ -1,0 +1,79 @@
+import tkinter as tk
+from tkinter import messagebox
+
+# --- 1. THE APP LOGIC (Functions) ---
+daily_goal = 2000
+total_calories = 0
+
+def add_food():
+    global total_calories
+    
+    # Get text from the input boxes
+    food = food_entry.get()
+    calories_text = calories_entry.get()
+    
+    # Make sure the user actually typed a number for calories
+    if food == "" or calories_text == "":
+        messagebox.showwarning("Error", "Please fill out both boxes!")
+        return
+        
+    try:
+        calories = int(calories_text)
+    except ValueError:
+        messagebox.showwarning("Error", "Calories must be a number!")
+        return
+    
+    # Update the math
+    total_calories += calories
+    calories_left = daily_goal - total_calories
+    
+    # Update the labels on the screen
+    total_label.config(text=f"Total Eaten: {total_calories} kcal")
+    left_label.config(text=f"Remaining: {calories_left} kcal")
+    
+    # Clear the input boxes for the next food
+    food_entry.delete(0, tk.END)
+    calories_entry.delete(0, tk.END)
+    
+    # Warning if over goal
+    if calories_left < 0:
+        messagebox.showwarning("Goal Reached", "⚠️ You are over your daily calorie goal!")
+
+# --- 2. SETTING UP THE WINDOW ---
+window = tk.Tk()
+window.title("Calorie Tracker 3000")
+window.geometry("350x400") # Sets the size of the window
+
+# --- 3. CREATING THE VISUAL ELEMENTS (Widgets) ---
+
+# Title
+title_label = tk.Label(window, text="🍎 Health Tracker 🍎", font=("Arial", 16, "bold"))
+title_label.pack(pady=10)
+
+# Goal Label
+goal_label = tk.Label(window, text=f"Daily Goal: {daily_goal} kcal", font=("Arial", 12))
+goal_label.pack()
+
+# Input: Food Name
+tk.Label(window, text="Food Name:", font=("Arial", 10)).pack(pady=5)
+food_entry = tk.Entry(window, font=("Arial", 12), width=25)
+food_entry.pack()
+
+# Input: Calories
+tk.Label(window, text="Calories:", font=("Arial", 10)).pack(pady=5)
+calories_entry = tk.Entry(window, font=("Arial", 12), width=25)
+calories_entry.pack()
+
+# Button to Add Food (Points to the add_food function above)
+add_button = tk.Button(window, text="Add Food Item", font=("Arial", 11, "bold"), bg="#4CAF50", fg="black", command=add_food)
+add_button.pack(pady=15)
+
+# --- 4. THE LIVE STATS LABELS ---
+total_label = tk.Label(window, text="Total Eaten: 0 kcal", font=("Arial", 12, "bold"), fg="blue")
+total_label.pack(pady=5)
+
+left_label = tk.Label(window, text=f"Remaining: {daily_goal} kcal", font=("Arial", 12, "bold"), fg="green")
+left_label.pack(pady=5)
+
+# --- 5. START THE APP ---
+window.mainloop() # This keeps the window open on your screen
