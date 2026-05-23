@@ -1,0 +1,57 @@
+import tkinter as tk
+from tkinter import messagebox
+
+# --- 1. THE APP LOGIC FUNCTION ---
+def calculate_bmi():
+    try:
+        # Read the numbers from the visual input boxes
+        weight = float(weight_entry.get())
+        height = float(height_entry.get())
+        
+        # Calculate the BMI using the Imperial formula
+        bmi = (weight / (height ** 2)) * 703
+        
+        # Figure out the medical category based on the score
+        if bmi < 18.5:
+            category = "Underweight"
+        elif bmi >= 18.5 and bmi <= 24.9:
+            category = "Healthy Weight"
+        elif bmi >= 25 and bmi <= 29.9:
+            category = "Overweight"
+        else:
+            category = "Obese"
+            
+        # Instead of printing to the terminal, show a visual popup box!
+        messagebox.showinfo("Your Results", f"Your BMI is: {round(bmi, 2)}\nCategory: {category}")
+        
+    except ValueError:
+        # If they typed in letters instead of numbers, show an error popup
+        messagebox.showwarning("Error", "Please enter valid numbers for weight and height!")
+
+# --- 2. THE VISUAL WINDOW SETUP ---
+window = tk.Tk()
+window.title("BMI Calculator")
+window.geometry("350x300")
+
+# --- 3. CREATING THE VISUAL ELEMENTS (Widgets) ---
+
+# Title Label
+title_label = tk.Label(window, text="⚖️ BMI Calculator ⚖️", font=("Arial", 16, "bold"))
+title_label.pack(pady=10)
+
+# Input Box for Weight
+tk.Label(window, text="Weight (lbs):", font=("Arial", 10)).pack(pady=5)
+weight_entry = tk.Entry(window, font=("Arial", 12), width=15)
+weight_entry.pack()
+
+# Input Box for Height
+tk.Label(window, text="Height (inches):", font=("Arial", 10)).pack(pady=5)
+height_entry = tk.Entry(window, font=("Arial", 12), width=15)
+height_entry.pack()
+
+# Button to trigger the calculation
+calc_button = tk.Button(window, text="Calculate BMI", font=("Arial", 11, "bold"), bg="cyan", command=calculate_bmi)
+calc_button.pack(pady=20)
+
+# --- 4. START THE APP LOOP ---
+window.mainloop()
