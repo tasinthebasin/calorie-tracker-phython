@@ -11,3 +11,5 @@ Before running the app, make sure you have Python installed on your computer. Yo
    ```bash
    python tracker.py
 Then track your calories for the day with a simple lightweight app!
+BMI app 
+To measure if you in healthy weight or not with using your height and weight
